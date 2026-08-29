@@ -1,0 +1,10 @@
+regbi-terra-key
+regbi-terra-key.pub
+terra-key-ec2
+terra-key-ec2.pub
+terraform-in-one-shot
+terraform-in-one-shot.pub
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+.terraform
