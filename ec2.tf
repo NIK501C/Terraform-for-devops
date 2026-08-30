@@ -143,6 +143,14 @@ resource "aws_security_group" "my_sg" {
 
     ingress {
         from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Allow SSH open"
+    }
+
+    ingress {
+        from_port = 80
         to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
@@ -159,13 +167,18 @@ resource "aws_security_group" "my_sg" {
 }
 
 resource "aws_instance" "my_ec2_instance" {
+    count = 5 #meta argument
     key_name = aws_key_pair.my_key.key_name
     vpc_security_group_ids = [aws_security_group.my_sg.id]
     instance_type = var.ec2_instance_type
     ami = var.ec2_ami
-
+    user_data = file("install_nginx.sh")
     root_block_device {
         volume_size = var.ec2_root_size
         volume_type= "gp2"
+    }
+
+    tags = {
+        Name = "terraform-in-one-shot-ec2"
     }
 }
